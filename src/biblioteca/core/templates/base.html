@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Head in base-->
+        {% include 'includes/head.html' %}
+    <!-- Head in base end -->
+<body>
+    <!-- Header in base -->
+        {% include 'includes/header.html' %}
+    <!-- Header in base end -->
+    <div class="ui pushable segment">
+        <div class="ui sidebar vertical menu">
+            <a class="item" href="{% url 'home' %}">Inicio</a>
+            <a class="item" href="{% url 'book_list' %}">Libros</a>
+            <a class="item">Préstamos</a>
+            <a class="item">Iniciar sesión</a>
+        </div>
+        <div class="pusher">
+            <div class="ui container" style="padding-top: 6em;">
+
+                {% block page_header %}
+                {% endblock %}
+            
+                {% block content %}
+                    <!-- Content goes here -->
+                {% endblock %}
+            
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer in base -->
+        {% include 'includes/footer.html' %}
+    <!-- Footer in base end -->
+
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

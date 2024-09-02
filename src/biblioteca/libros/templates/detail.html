@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>{{ book.titulo }}</h1>
+    <div class="book-info">
+        <p><strong>Autor:</strong> {{ book.autor }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <p><strong>Fecha de publicación:</strong> {{ book.fecha_publicacion }}</p>
+    </div>
+    {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}" alt="{{ book.titulo }} cover" class="cover-image">
+    {% endif %}
+    <div>
+        <a href="{% url 'book_update' book.pk %}" class="btn">Editar</a>
+        <a href="{% url 'book_delete' book.pk %}" class="btn">Borrar</a>
+        <a href="{% url 'book_list' %}">Regresar a la lista de libros</a>
+    </div>
+
+{% endblock content %}

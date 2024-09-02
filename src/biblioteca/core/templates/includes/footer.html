@@ -1,0 +1,16 @@
+<script>
+    /*
+    $(document)
+        .ready(function() {
+            // Inicialización del sidebar
+            $('.ui.sidebar')
+                .sidebar('attach events', '.toc.item')
+            ;
+        })
+    ;
+    */
+    $('.ui.sidebar').sidebar({
+    context: $('.ui.pushable.segment'),
+    transition: 'overlay'
+    }).sidebar('attach events', '#mobile_item');
+</script>

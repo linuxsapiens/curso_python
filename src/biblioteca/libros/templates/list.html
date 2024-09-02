@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Lista de libros</h1>
+    <a href="{% url 'book_create' %}" class="btn">Agregar</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td><a href="{% url 'book_detail' book.pk %}">{{ book.titulo }}</a></td>
+                <td>{{ book.autor }}</td>
+                <td>{{ book.isbn }}</td>
+                <td>
+                    <a href="{% url 'book_update' book.pk %}">Editar</a> |
+                    <a href="{% url 'book_delete' book.pk %}">Borrar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No existen libros.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Confirmar eliminación</h1>
+    <div class="confirmation">
+        <p>¿ Está seguro de eliminar el libro "{{ book.titulo }}"?</p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirmar">
+    </form>
+    <a href="{% url 'book_detail' book.pk %}">Cancelar</a>
+
+{% endblock content %}

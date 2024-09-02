@@ -1,0 +1,22 @@
+<div class="ui grid">
+	
+	<div class="computer only row">
+		<div class="column">
+			<div class="ui menu">
+				<a class="item" href="{% url 'home' %}">Inicio</a>
+				<a class="item" href="{% url 'book_list' %}">Libros</a>
+				<a class="item">Préstamos</a>
+				<a class="item">Iniciar sesión</a>
+			</div>
+		</div>
+	</div>
+	
+	 <div class="tablet mobile only row">
+		<div class="column">
+			<div class="ui menu">
+				<a id="mobile_item" class="item"><i class="bars icon"></i></a>
+			</div>
+		</div>
+	</div>
+
+</div>
