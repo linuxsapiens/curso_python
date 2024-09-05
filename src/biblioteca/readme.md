@@ -52,3 +52,50 @@
     2. crear [urls.py](http://urls.py) e importarlo en core/urls.py agregando las rutas al final
 16. Crear la carpeta media/book\_covers y configurar la en core/settings
 17. Ejecutar el proyecto.
+
+Antes de poder programar el préstamo de libros tenemos que implementar el manejo de usuarios y seguridad, para eso intentaremos usar el motor de usuarios que incluye django.
+
+1. Incluir las rutas internas de django en core/urls.py `path('auth/', include('django.contrib.auth.urls')),`
+2. La biblioteca interna contiene rutas definidas para las acciones de authorización de django en cuanto a usuarios
+    ```plain
+    auth/login/ [name='login']
+    auth/logout/ [name='logout']
+    auth/password_change/ [name='password_change']
+    auth/password_change/done/ [name='password_change_done']
+    auth/password_reset/ [name='password_reset']
+    auth/password_reset/done/ [name='password_reset_done']
+    auth/reset/<uidb64>/<token>/ [name='password_reset_confirm']
+    auth/reset/done/ [name='password_reset_complete']
+    ```
+    1. Todas las rutas internamente manejan se dirijen a una carpeta FIJA llamada "registratio/n"
+3. Crear la carpeta usuarios/registration y dentro la platilla "login.html"
+    1. agregar la carpeta usuarios/templates en core/settings.py en la sección TEMPLATES
+    2. Además es conveniente agregar una ruta a donde se redirija al usuario después de una entrada existosa ( login )
+        1. En core/settings.py ir al final y poner
+        ```plain
+        LOGIN_REDIRECT_URL = "/"  # new 
+        ```
+    3. Ahora se podría hacer login en el sistema interno de python en la ruta [http://localhost:8000/auth/login](http://localhost:8000/auth/login)
+4. Aún no es posible hacer login en el sistema por que es necesario crear un super usuario, detener el servidor y ejecutar:
+    1. `python manage.py createsuperuser`
+5. Ya se puede poner a ejecutar de nuevo el servidor y hacer login, si tiene éxito después de login se redirije al index " / "
+6. Modificar el código de core/templates/home.html para insertar código que se ajuste al manejo de usuario loggeado
+7. Ajustar el código de core/templates/includes/navbar.html para que se valide si esta el usuario loggeado o no.
+    1. También hacer los ajustes en el menú desktop
+8. Ahora vamos a agregar lo necesario para usar el mecanismo interno de registro de usuario
+    1. Crear usuarios/urls.py e insertar el código para el registro de usuarios
+    2. Crear las vistas de usuarios en usuarios/views.py
+    3. Agregar en core/urls.py las rutas de usuarios/urls.py
+    4. Crear ahora la plantilla para el registro de un nuevo usuario en usuarios
+9. Al ejecutar el servidor ya sería posible registrar un nuevo usuario en /auth/registration/signup
+10. Crear un usuario de prueba e intentar entrar con ese usuario a /admin para comprobar que no es posible por que el usuario creado es un usuario normal y no tiene permisos de super usuario.
+11. Sería posible agregar el link anterior al template de login
+    1. También agregar el link de "¿ Ya tienes cuenta ? Inicia sesión"
+12. Repetir las operaciones anteriores para el cambio de contraseña
+    1. usuarios/registration/password\_change\_form.html
+    2. usuarios/registration/password\_change\_done.html
+
+  
+
+Después de esto ya se podría continuar con la implementación de los préstamos
+

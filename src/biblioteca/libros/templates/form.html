@@ -2,12 +2,32 @@
 
 {% block content %}
 
-<h1>{% if form.instance.pk %}Modificar{% else %}Crear{% endif %} Libro</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% if form.instance.pk %}Update{% else %}Create{% endif %} Book">
-</form>
-<p><a href="{% url 'book_list' %}">Volver a la lista de libros</a></p>
+<div class="ui container">
+    <h1 class="ui header">{% if form.instance.pk %}Modificar{% else %}Crear{% endif %} Libro</h1>
+    
+    <form method="post" enctype="multipart/form-data" class="ui form">
+        {% csrf_token %}
+        <div class="ui stacked segment">
+            {% for field in form %}
+                <div class="field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="ui pointing red basic label">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <button class="ui primary button" type="submit">
+            {% if form.instance.pk %}Actualizar{% else %}Crear{% endif %} Libro
+        </button>
+    </form>
+    
+    <div class="ui hidden divider"></div>
+    
+    <a href="{% url 'book_list' %}" class="ui button">Volver a la lista de libros</a>
+</div>
 
 {% endblock content %}

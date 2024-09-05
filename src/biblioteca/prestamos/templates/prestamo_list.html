@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ui container">
+    <h1 class="ui header">Lista de Préstamos</h1>
+    <a href="{% url 'prestamo_create' %}" class="ui primary button">Nuevo Préstamo</a>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Libro</th>
+                <th>Usuario</th>
+                <th>Fecha de Préstamo</th>
+                <th>Fecha de Devolución</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestamo in prestamos %}
+            <tr>
+                <td>{{ prestamo.libro.titulo }}</td>
+                <td>{{ prestamo.usuario.username }}</td>
+                <td>{{ prestamo.fecha_prestamo }}</td>
+                <td>{{ prestamo.fecha_devolucion|default:"No devuelto" }}</td>
+                <td>
+                    <a href="{% url 'prestamo_update' prestamo.pk %}" class="ui tiny blue button">Editar</a>
+                    <a href="{% url 'prestamo_delete' prestamo.pk %}" class="ui tiny red button">Borrar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="center aligned">No hay préstamos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

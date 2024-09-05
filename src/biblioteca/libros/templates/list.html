@@ -2,9 +2,10 @@
 
 {% block content %}
 
-<h1>Lista de libros</h1>
-    <a href="{% url 'book_create' %}" class="btn">Agregar</a>
-    <table>
+<div class="ui container">
+    <h1 class="ui header">Lista de libros</h1>
+    <a href="{% url 'book_create' %}" class="ui primary button">Agregar</a>
+    <table class="ui celled table">
         <thead>
             <tr>
                 <th>Título</th>
@@ -20,16 +21,17 @@
                 <td>{{ book.autor }}</td>
                 <td>{{ book.isbn }}</td>
                 <td>
-                    <a href="{% url 'book_update' book.pk %}">Editar</a> |
-                    <a href="{% url 'book_delete' book.pk %}">Borrar</a>
+                    <a href="{% url 'book_update' book.pk %}" class="ui tiny blue button">Editar</a>
+                    <a href="{% url 'book_delete' book.pk %}" class="ui tiny red button">Borrar</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4">No existen libros.</td>
+                <td colspan="4" class="center aligned">No existen libros.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 
 {% endblock content %}
