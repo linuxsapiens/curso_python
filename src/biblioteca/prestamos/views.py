@@ -3,8 +3,14 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Prestamo
 from .forms import PrestamoForm
+from django.shortcuts import redirect
 
 class PrestamoListView(LoginRequiredMixin, ListView):
+    # if not user is_staff, redirect to home
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
     model = Prestamo
     template_name = 'prestamo_list.html'
     context_object_name = 'prestamos'

@@ -17,3 +17,7 @@ class BookForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'field'})
+
+
+class BookSearchForm(forms.Form):
+    query = forms.CharField(label='Búsqueda de libros', max_length=100)

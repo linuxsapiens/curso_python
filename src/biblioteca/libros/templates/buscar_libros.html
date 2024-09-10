@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="ui container">
+    <h1 class="ui header">Buscar Libros</h1>
+    
+    <form class="ui form" method="GET">
+        <div class="field">
+            <div class="ui icon input">
+                <input type="text" name="q" placeholder="Buscar por título, autor o ISBN..." value="{{ query|default_if_none:'' }}">
+                <i class="search icon"></i>
+            </div>
+        </div>
+        <button class="ui primary button" type="submit">Buscar</button>
+    </form>
+
+    <div class="ui divided items">
+        {% for libro in page_obj %}
+            <div class="item">
+                <div class="image">
+                    <img src="{{ libro.cover_image.url }}">
+                </div>
+                <div class="content">
+                    <a class="header">{{ libro.titulo }}</a>
+                    <div class="meta">
+                        <span>{{ libro.autor }}</span>
+                    </div>
+                    <div class="description">
+                        <p>ISBN: {{ libro.isbn }}</p>
+                        <p>Fecha de publicación: {{ libro.fecha_publicacion }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No se encontraron libros.</p>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+        <div class="ui pagination menu">
+            {% if page_obj.has_previous %}
+                <a class="item" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">
+                    <i class="left chevron icon"></i> Anterior
+                </a>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <a class="active item">{{ i }}</a>
+                {% else %}
+                    <a class="item" href="?q={{ query }}&page={{ i }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="item" href="?q={{ query }}&page={{ page_obj.next_page_number }}">
+                    Siguiente <i class="right chevron icon"></i>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

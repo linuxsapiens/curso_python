@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'libros',
     'prestamos',
     'usuarios',
+    # 'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/"  # new
 LOGOUT_REDIRECT_URL = "/"  # new
+
+# ... otras configuraciones ...
+
+# Configuración de Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# Configuración de correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.fortesitio.com'
+EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'gerardo@fortesitio.com'
+EMAIL_HOST_PASSWORD = 'Muymuysecreto#0'
+
+# Usar celery beat para configurar la ejecución de la tarea cada periodo
+CELERY_BEAT_SCHEDULE = {
+    'enviar-recordatorios-diarios': {
+        'task': 'libros.tasks.enviar_recordatorios',
+        # ejecutar cada minuto
+        'schedule': crontab(minute='*/1'),  # Se ejecuta todos los días a las 9:00 AM
+    },
+}

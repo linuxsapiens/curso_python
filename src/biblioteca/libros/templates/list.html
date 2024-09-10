@@ -5,6 +5,8 @@
 <div class="ui container">
     <h1 class="ui header">Lista de libros</h1>
     <a href="{% url 'book_create' %}" class="ui primary button">Agregar</a>
+    <div class="ui divider"></div>
+    <a href="{% url 'add_books_from_api' %}" class="ui secondary button">Agregar desde API</a>
     <table class="ui celled table">
         <thead>
             <tr>
