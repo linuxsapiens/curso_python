@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include('prestamos.urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path('auth/', include('usuarios.urls')),
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:

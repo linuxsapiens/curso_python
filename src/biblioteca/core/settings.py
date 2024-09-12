@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'libros',
     'prestamos',
     'usuarios',
+    'api',
     # 'django_celery_beat',
 ]
 
@@ -168,4 +171,14 @@ CELERY_BEAT_SCHEDULE = {
         # ejecutar cada minuto
         'schedule': crontab(minute='*/1'),  # Se ejecuta todos los días a las 9:00 AM
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
