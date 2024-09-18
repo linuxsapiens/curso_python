@@ -28,6 +28,13 @@
                         <p>ISBN: {{ libro.isbn }}</p>
                         <p>Fecha de publicación: {{ libro.fecha_publicacion }}</p>
                     </div>
+                    <div class="extra">
+                        {% if libro.status == 'disponible' %}
+                            <a href="{% url 'solicitar_prestamo' libro.pk %}" class="ui primary button">Reservar</a>
+                        {% else %}
+                            <p class="ui label">{{ libro.status|title }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% empty %}

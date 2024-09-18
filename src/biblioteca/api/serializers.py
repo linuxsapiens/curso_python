@@ -6,7 +6,8 @@ from prestamos.models import Prestamo
 class LibroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Libro
-        fields = ['id', 'titulo', 'autor', 'isbn', 'fecha_publicacion', 'cover_image']
+        fields = ['id', 'titulo', 'autor', 'isbn', 'fecha_publicacion', 'cover_image', 'status']
+        read_only_fields = fields
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -21,7 +22,7 @@ class LoginSerializer(serializers.Serializer):
 class PrestamoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prestamo
-        fields = ['id', 'libro', 'fecha_prestamo', 'fecha_devolucion', 'devuelto']
+        fields = ['id', 'libro', 'fecha_prestamo', 'fecha_devolucion', 'status']
         read_only_fields = ['usuario']
 
     def create(self, validated_data):

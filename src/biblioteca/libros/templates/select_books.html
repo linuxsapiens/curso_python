@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2 class="ui header">Seleccionar libros para agregar</h2>
+
+<form method="post" action="{% url 'add_selected_books' %}" class="ui form">
+    {% csrf_token %}
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Portada</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
+                <th>Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td class="center aligned">
+                        <img src="{{ book.cover_image_url }}" alt="{{ book.title }}" class="ui tiny image">
+                    </td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td class="center aligned">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="selected_books" value="{{ book.id }}">
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="ui primary button" type="submit">Agregar libros seleccionados</button>
+</form>
+{% endblock %}

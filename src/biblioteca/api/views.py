@@ -1,28 +1,43 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import login
+from django.db.models import Q
 from libros.models import Libro
 from .serializers import LibroSerializer, LoginSerializer, PrestamoSerializer
-from libros.utils import search_books
+# from libros.utils import search_books
 from prestamos.models import Prestamo
 
-class LibroViewSet(viewsets.ModelViewSet):
+class LibroPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class PrestamoPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class LibroViewSet(mixins.RetrieveModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     queryset = Libro.objects.all()
     serializer_class = LibroSerializer
+    pagination_class = LibroPagination
 
-    @action(detail=False, methods=['post'])
-    def add_books_from_api(self, request):
-        query = request.data.get('query')
-        if not query:
-            return Response({"error": "Se requiere un parámetro 'query'"}, status=400)
-
-        books_data = search_books(query)
-        process_books_data(books_data)
-
-        return Response({"message": f"Se procesaron {len(books_data)} libros"})
+    def get_queryset(self):
+        queryset = Libro.objects.all()
+        query = self.request.query_params.get('q')
+        if query:
+            queryset = queryset.filter(
+                Q(titulo__icontains=query) |
+                Q(autor__icontains=query) |
+                Q(isbn__icontains=query)
+            )
+        return queryset    
 
 class LoginViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
@@ -38,6 +53,7 @@ class LoginViewSet(viewsets.ViewSet):
 class PrestamoViewSet(viewsets.ModelViewSet):
     serializer_class = PrestamoSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PrestamoPagination
 
     def get_queryset(self):
         return Prestamo.objects.filter(usuario=self.request.user)

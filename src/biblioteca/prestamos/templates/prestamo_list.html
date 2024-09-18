@@ -11,6 +11,7 @@
                 <th>Usuario</th>
                 <th>Fecha de Préstamo</th>
                 <th>Fecha de Devolución</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td>{{ prestamo.usuario.username }}</td>
                 <td>{{ prestamo.fecha_prestamo }}</td>
                 <td>{{ prestamo.fecha_devolucion|default:"No devuelto" }}</td>
+                <td>{{ prestamo.status|title }}</td>
                 <td>
                     <a href="{% url 'prestamo_update' prestamo.pk %}" class="ui tiny blue button">Editar</a>
                     <a href="{% url 'prestamo_delete' prestamo.pk %}" class="ui tiny red button">Borrar</a>

@@ -1,39 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2 class="ui header">Catálogo de Libros</h2>
+<a href="{% url 'search_books_from_api' %}" class="ui secondary button">Agregar desde API</a>
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>Portada</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for libro in page_obj %}
+        <tr>
+            <td class="center aligned">
+                {% if libro.cover_image %}
+                    <img src="{{ libro.cover_image.url }}" alt="{{ libro.titulo }}" class="ui tiny image">
+                {% else %}
+                    <i class="huge book icon"></i>
+                {% endif %}
+            </td>
+            <td>{{ libro.titulo }}</td>
+            <td>{{ libro.autor }}</td>
+            <td>{{ libro.isbn }}</td>
+            <td class="center aligned">
+                <a href="{% url 'book_detail' libro.pk %}" class="ui icon button" title="Ver">
+                    <i class="eye icon"></i>
+                </a>
+                <a href="{% url 'book_update' libro.pk %}" class="ui icon button" title="Editar">
+                    <i class="edit icon"></i>
+                </a>
+                <a href="{% url 'book_delete' libro.pk %}" class="ui icon button" title="Eliminar">
+                    <i class="trash icon"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<div class="ui container">
-    <h1 class="ui header">Lista de libros</h1>
-    <a href="{% url 'book_create' %}" class="ui primary button">Agregar</a>
-    <div class="ui divider"></div>
-    <a href="{% url 'add_books_from_api' %}" class="ui secondary button">Agregar desde API</a>
-    <table class="ui celled table">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>ISBN</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <td><a href="{% url 'book_detail' book.pk %}">{{ book.titulo }}</a></td>
-                <td>{{ book.autor }}</td>
-                <td>{{ book.isbn }}</td>
-                <td>
-                    <a href="{% url 'book_update' book.pk %}" class="ui tiny blue button">Editar</a>
-                    <a href="{% url 'book_delete' book.pk %}" class="ui tiny red button">Borrar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="center aligned">No existen libros.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="ui pagination menu">
+    {% if page_obj.has_previous %}
+        <a class="item" href="?page=1">&laquo; Primera</a>
+        <a class="item" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+
+    <span class="item">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+        <a class="item" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+        <a class="item" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+    {% endif %}
 </div>
-
-{% endblock content %}
+{% endblock %}

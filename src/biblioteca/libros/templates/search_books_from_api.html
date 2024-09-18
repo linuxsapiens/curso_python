@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ui container">
+  <h1 class="ui header">Agregar libros desde Google Books</h1>
+  <form class="ui form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="ui primary button" type="submit">Buscar y seleccionar libros</button>
+  </form>
+</div>
+{% endblock %}

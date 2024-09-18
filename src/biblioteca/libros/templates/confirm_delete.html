@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h1>Confirmar eliminación</h1>
-    <div class="confirmation">
+<div class="ui container">
+    <h1 class="ui header">Confirmar eliminación</h1>
         <p>¿ Está seguro de eliminar el libro "{{ book.titulo }}"?</p>
     </div>
     <form method="post">
         {% csrf_token %}
-        <input type="submit" value="Confirmar">
+        <input type="submit" class="ui red button" value="Confirmar"/>
     </form>
-    <a href="{% url 'book_detail' book.pk %}">Cancelar</a>
+    <a href="{% url 'book_list' %}" class="ui button">Cancelar</a>
 
 {% endblock content %}
