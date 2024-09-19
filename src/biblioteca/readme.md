@@ -99,3 +99,5 @@ Antes de poder programar el préstamo de libros tenemos que implementar el manej
 
 Después de esto ya se podría continuar con la implementación de los préstamos
 
+
+Comentarios extra
