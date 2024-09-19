@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.paginator import Paginator
+# from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect

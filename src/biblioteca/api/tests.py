@@ -6,6 +6,16 @@ from rest_framework import status
 from libros.models import Libro
 from datetime import date
 
+# No opera sobre la base de datos de produccion, sino de una que llama con alias test
+# Ejecutar usando: python manage.py test api
+# Cada uno de los test, se ejecutan en ningun orden en particular.
+
+#    setUpClass: Happens before the FIRST test
+#    setUp: Happens before EVERY test
+#    tearDown: Happens after EVERY test
+#    tearDownClass: Happens after the LAST test
+
+
 class APITestCase(TestCase):
 
     client = APIClient
@@ -53,11 +63,4 @@ class APITestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         json_resp = response.json()
         self.assertEqual(libro.id, json_resp['id'])
-
-# Ejecutar usando: python manage.py test api
-
-#    setUpClass: Happens before the FIRST test
-#    setUp: Happens before EVERY test
-#    tearDown: Happens after EVERY test
-#    tearDownClass: Happens after the LAST test
 
